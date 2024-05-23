@@ -3,6 +3,7 @@ package com.aluracursos.screenmatch.model;
 import com.fasterxml.jackson.annotation.JsonAlias;
 import jakarta.persistence.*;
 
+import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.OptionalDouble;
@@ -22,6 +23,8 @@ public class Serie {
     private Categoria genero;
     private String actores;
     private String sinopsis;
+    @Transient //cuando no quieres mapear algo
+    private List<Episodio> episodios;
 
     public Serie(DatosSerie datosSerie){
       this.titulo = datosSerie.titulo();
