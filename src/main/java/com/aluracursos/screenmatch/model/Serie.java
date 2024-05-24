@@ -24,7 +24,7 @@ public class Serie {
     private String actores;
     private String sinopsis;
     //@Transient //cuando no quieres mapear algo
-    @OneToMany(mappedBy = "serie")
+    @OneToMany(mappedBy = "serie", cascade = CascadeType.ALL)
     private List<Episodio> episodios;
 
     public Serie(){}//Constructor predeterminado
@@ -49,6 +49,15 @@ public class Serie {
 
  public String getTitulo() {
      return titulo;
+    }
+
+
+    public List<Episodio> getEpisodios() {
+        return episodios;
+    }
+
+    public void setEpisodios(List<Episodio> episodios) {
+        this.episodios = episodios;
     }
 
     public void setTitulo(String titulo) {
