@@ -23,7 +23,8 @@ public class Serie {
     private Categoria genero;
     private String actores;
     private String sinopsis;
-    @Transient //cuando no quieres mapear algo
+    //@Transient //cuando no quieres mapear algo
+    @OneToMany(mappedBy = "serie")
     private List<Episodio> episodios;
 
     public Serie(){}//Constructor predeterminado
