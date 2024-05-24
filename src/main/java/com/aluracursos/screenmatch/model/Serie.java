@@ -26,6 +26,8 @@ public class Serie {
     @Transient //cuando no quieres mapear algo
     private List<Episodio> episodios;
 
+    public Serie(){}//Constructor predeterminado
+
     public Serie(DatosSerie datosSerie){
       this.titulo = datosSerie.titulo();
       this.totalTemporadas = datosSerie.totalTemporadas();

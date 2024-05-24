@@ -16,7 +16,7 @@ public class Principal {
     private Scanner teclado = new Scanner(System.in);
     private ConsumoAPI consumoApi = new ConsumoAPI();
     private final String URL_BASE = "https://www.omdbapi.com/?t=";
-    private final String API_KEY = "&apikey=35985b4e";
+    String apiKey = System.getenv("OMDB_APIKEY");
     private ConvierteDatos conversor = new ConvierteDatos();
     private List<DatosSerie> datosSeries = new ArrayList<>();
     private SerieRepository repositorio;
@@ -63,7 +63,7 @@ public class Principal {
     private DatosSerie getDatosSerie() {
         System.out.println("Escribe el nombre de la serie que deseas buscar");
         var nombreSerie = teclado.nextLine();
-        var json = consumoApi.obtenerDatos(URL_BASE + nombreSerie.replace(" ", "+") + API_KEY);
+        var json = consumoApi.obtenerDatos(URL_BASE + nombreSerie.replace(" ", "+") + apiKey);
         System.out.println(json);
         DatosSerie datos = conversor.obtenerDatos(json, DatosSerie.class);
         return datos;
@@ -73,7 +73,7 @@ public class Principal {
         List<DatosTemporadas> temporadas = new ArrayList<>();
 
         for (int i = 1; i <= datosSerie.totalTemporadas(); i++) {
-            var json = consumoApi.obtenerDatos(URL_BASE + datosSerie.titulo().replace(" ", "+") + "&season=" + i + API_KEY);
+            var json = consumoApi.obtenerDatos(URL_BASE + datosSerie.titulo().replace(" ", "+") + "&season=" + i + "?apikey=" + System.getenv("OMDB_KEY"));
             DatosTemporadas datosTemporada = conversor.obtenerDatos(json, DatosTemporadas.class);
             temporadas.add(datosTemporada);
         }
@@ -88,10 +88,8 @@ public class Principal {
     }
 
     private void mostrarSeriesBuscadas() {
-        List<Serie> series = new ArrayList<>();
-        series = datosSeries.stream()
-                .map(d -> new Serie(d))
-                .collect(Collectors.toList());
+        List<Serie> series = repositorio.findAll(); //para traer todo lo de la lista
+
 
         series.stream()
                 .sorted(Comparator.comparing(Serie::getGenero))
