@@ -1,9 +1,6 @@
 package com.aluracursos.screenmatch.principal;
 
-import com.aluracursos.screenmatch.model.DatosSerie;
-import com.aluracursos.screenmatch.model.DatosTemporadas;
-import com.aluracursos.screenmatch.model.Episodio;
-import com.aluracursos.screenmatch.model.Serie;
+import com.aluracursos.screenmatch.model.*;
 import com.aluracursos.screenmatch.repository.SerieRepository;
 import com.aluracursos.screenmatch.service.ConsumoAPI;
 import com.aluracursos.screenmatch.service.ConvierteDatos;
@@ -33,6 +30,8 @@ public class Principal {
                     2 - Buscar episodios
                     3 - Mostrar series buscadas
                     4 - Buscar serie por titulo
+                    5 - Top 5 mejores series
+                    6 - Buscar series por categoria
                                   
                     0 - Salir
                     
@@ -54,6 +53,12 @@ public class Principal {
                 case 4:
                     buscarSeriesPorTitulo();
                     break;
+                case 5:
+                    buscarTop5Series();
+                    break;
+                case 6:
+                    buscarSeriesPorCategoria();
+                    break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
                     break;
@@ -63,7 +68,6 @@ public class Principal {
         }
 
     }
-
 
 
     private DatosSerie getDatosSerie() {
@@ -132,6 +136,23 @@ public class Principal {
         }else {
             System.out.println("Serie no encontrada");
         }
+    }
+
+    private void buscarTop5Series() {
+        List<Serie> topSeries = repositorio.findTop5ByOrderByEvaluacionDesc();
+        topSeries.forEach(s ->
+                System.out.println("Serie: "+s.getTitulo() + " Evaluacion: "+s.getEvaluacion()));
+
+    }
+
+    private void buscarSeriesPorCategoria() {
+        System.out.println("Escribe el genero/categoria de la serie: ");
+        var genero = teclado.nextLine();
+        var categoria = Categoria.fromEspanol(genero);
+        List <Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+        System.out.println("Las series de la categoria "+genero);
+        seriesPorCategoria.forEach(System.out::println);
+
     }
 
 
