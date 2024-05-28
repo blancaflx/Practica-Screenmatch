@@ -20,5 +20,6 @@ public class SerieController {
                 .map(s -> new SerieDTO(s.getTitulo(), s.getTotalTemporadas(), s.getEvaluacion(), s.getPoster(), s.getGenero(), s.getActores(),s.getSinopsis()))
                 .collect(Collectors.toList());
     }
+   
 
 }
